@@ -7,4 +7,4 @@
 
 扫码加群
 
-[](!weixin.jpg)
+![](weixin.jpg)
