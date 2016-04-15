@@ -1,0 +1,42 @@
+public void test5()
+    {
+        int[] a={49,38,65,97,76,13,27,49,78,34,12,64,1};
+        int temp,j;
+        for(int i=1;i<a.length;i++)
+        {
+            temp = a[i];
+            for (j=i-1;j>=0;j--)
+            {
+                if(a[j]>temp)
+                {
+                    a[j+1]=a[j];
+                }
+                else
+                {
+                    break;
+                }
+            }
+            a[j+1]=temp;
+        }
+        System.out.println(a[0]);
+    }
+
+
+public void test7()
+    {
+        int[] a={5,38,65,97,76,13,27,49,78,34,12,64,1};
+        int i,j,k;
+        for (k=a.length/2;k>0;k/=2)
+        {
+            for (i=k;i<a.length;i++)
+            {
+                for (j=i-k;j>=0 && a[j] > a[j+k];j-=k)
+                {
+                    int temp = a[j];
+                    a[j] = a[j+k];
+                    a[j+k]=temp;
+                }
+            }
+        }
+        System.out.println(a[0]);
+    }
