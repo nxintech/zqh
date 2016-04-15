@@ -5,10 +5,11 @@ import java.util.Arrays;
 public class InsertionSorter {
 
 	public static void main(String[] args) {
-		int[] array = { 3, -1, 0, -1,-8,};  
-		/*array=getSortedArrayByInsertion(array,0,4);
-		System.out.println(Arrays.toString(array));*/
-		System.out.println(Arrays.toString(getSortedArrayByShell(array)));
+		
+		int[] array1 = { 3, -1, 0, -1,-8,10,9};
+		System.out.println(Arrays.toString(getSortedArrayByInsertion(array1,0,4)));
+		int[] array2 = { 6, 0, 9, -10,-18,3,4};
+		System.out.println(Arrays.toString(getSortedArrayByShell(array2)));
 	}
 	private static int [] getSortedArrayByInsertion(int [] array,int i,int length){
 		int j;
