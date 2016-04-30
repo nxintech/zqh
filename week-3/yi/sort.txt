@@ -1,0 +1,104 @@
+public void test9()
+    {
+        int[] a={5,38,65,97,76,13,27,49,78,34,12,64,1};
+        List<int[]> ls = new ArrayList<>();
+        for (int i=0;i<Math.ceil(a.length/2.0);i++)
+        {
+            int[] ar = Arrays.copyOfRange(a,i*2,(i+1)*2>a.length?a.length:(i+1)*2);
+            if(ar.length == 2)
+            {
+                if(ar[0] > ar[1])
+                {
+                    ar[0] = ar[0] ^ ar[1];
+                    ar[1] = ar[0] ^ ar[1];
+                    ar[0] = ar[0] ^ ar[1];
+                }
+            }
+            ls.add(ar);
+        }
+        int[] arr=ls.get(0);
+        for (int i=1;i<ls.size();i++)
+        {
+            arr = sort(arr,ls.get(i));
+        }
+        System.out.println(Arrays.toString(arr));
+    }
+    @Test
+    public void test10()
+    {
+        int[] arr = sort(new int[]{5,13,38,65,76,97},new int[]{1,12,27,34,49,64,78});
+        System.out.println(Arrays.toString(arr));
+    }
+    private int[] sort(int[] a1, int[] a2)
+    {
+        int i=0,j=0,k=0;
+        int[] arr = new int[a1.length + a2.length];
+        while (i < a1.length && j < a2.length)
+        {
+            if(a1[i] < a2[j])
+            {
+                arr[k++] = a1[i++];
+            }
+            else
+            {
+                arr[k++] = a2[j++];
+            }
+        }
+        if(i<a1.length)
+        {
+            for (int l=i;l<a1.length;l++,i++)
+            {
+                arr[i+j] = a1[l];
+            }
+        }
+        else
+        {
+            for (int l=j;l<a2.length;l++,j++)
+            {
+                arr[i+j] = a2[l];
+            }
+        }
+        return arr;
+    }
+    private int[] sort(int[] nums, int low, int high)
+    {
+        int mid = (low + high) / 2;
+        if (low < high)
+        {
+            sort(nums, low, mid);
+            sort(nums, mid + 1, high);
+            merge(nums, low, mid, high);
+        }
+        return nums;
+    }
+
+    private void merge(int[] nums, int low, int mid, int high)
+    {
+        int[] temp = new int[high - low + 1];
+        int i = low;
+        int j = mid + 1;
+        int k = 0;
+        while (i <= mid && j <= high)
+        {
+            if (nums[i] < nums[j])
+            {
+                temp[k++] = nums[i++];
+            }
+            else
+            {
+                temp[k++] = nums[j++];
+            }
+        }
+        while (i <= mid)
+        {
+            temp[k++] = nums[i++];
+        }
+        while (j <= high)
+        {
+            temp[k++] = nums[j++];
+        }
+        for (int k2 = 0; k2 < temp.length; k2++)
+        {
+            nums[k2 + low] = temp[k2];
+        }
+    }
