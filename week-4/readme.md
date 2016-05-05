@@ -8,7 +8,7 @@ binary tree
 
 满二叉树：一棵深度为 k，且有 2k - 1 个节点称之为满二叉树
 
-
+![](full_binary_tree.png)
 
 Preorder Traversal 前序遍历：根节点->左子树->右子树
 
