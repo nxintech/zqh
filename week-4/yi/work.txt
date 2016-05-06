@@ -1,0 +1,95 @@
+private class Node
+{
+    private int data;
+    private Node left;
+    private Node right;
+
+    public int getData()
+    {
+        return data;
+    }
+
+    public void setData(int data)
+    {
+        this.data = data;
+    }
+
+    public Node getLeft()
+    {
+        return left;
+    }
+
+    public void setLeft(Node left)
+    {
+        this.left = left;
+    }
+
+    public Node getRight()
+    {
+        return right;
+    }
+
+    public void setRight(Node right)
+    {
+        this.right = right;
+    }
+}
+
+@Test
+public void test11()
+{
+    Node root = new Node();
+    root.setData(1);
+    insert(root, 9);
+    insert(root, 6);
+    insert(root, 12);
+    insert(root, 24);
+    insert(root, 43);
+    insert(root, 11);
+    insert(root, 14);
+    insert(root, 45);
+    insert(root, 2);
+    insert(root, 55);
+    visitNode(root);
+}
+private void visitNode(Node node)
+{
+    if(node.getLeft() != null)
+    {
+        visitNode(node.getLeft());
+    }
+    System.out.println(node.getData());
+    if(node.getRight() != null)
+    {
+        visitNode(node.getRight());
+    }
+}
+private void insert(Node node,int data)
+{
+    if(node.getData() >= data)
+    {
+        if(node.getLeft() == null)
+        {
+            Node n = new Node();
+            n.setData(data);
+            node.setLeft(n);
+        }
+        else
+        {
+            insert(node.getLeft(), data);
+        }
+    }
+    else
+    {
+        if(node.getRight() == null)
+        {
+            Node n = new Node();
+            n.setData(data);
+            node.setRight(n);
+        }
+        else
+        {
+            insert(node.getRight(), data);
+        }
+    }
+}
