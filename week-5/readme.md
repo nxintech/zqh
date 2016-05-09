@@ -85,3 +85,6 @@
 队列有2个方法 push(Object) 和 pop(Object), 每个Object 要有一个priority的属性。
 
 自定最大优先级还是最小优先级出列
+
+
+[参考文献](https://courses.cs.washington.edu/courses/cse373/06sp/handouts/lecture10.pdf)
