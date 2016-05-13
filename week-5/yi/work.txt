@@ -1,0 +1,113 @@
+private class PriorityQueue
+{
+    private int[] arr = new int[10];
+    private int position = 0;
+
+    public void push(int data)
+    {
+        if(position == arr.length -1)
+        {
+            int[] r = new int[arr.length + 10];
+            System.arraycopy(arr, 0, r, 0, arr.length);
+            arr = r;
+        }
+        arr[position++] = data;
+        if(position > 1)
+        {
+            sort(position);
+        }
+    }
+    private void sort(int p)
+    {
+        int n = (p % 2 == 0) ? (p / 2) : ((p - 1) / 2);
+        if (n >= 1)
+        {
+            if(arr[n - 1] > arr[p - 1])
+            {
+                arr[n - 1] = arr[n - 1] ^ arr[p - 1];
+                arr[p - 1] = arr[n - 1] ^ arr[p - 1];
+                arr[n - 1] = arr[n - 1] ^ arr[p - 1];
+                sort(n);
+            }
+        }
+    }
+    private void rsort(int p)
+    {
+        if (p < position + 1)
+        {
+            int cl = 2 * p;
+            int cr = cl + 1;
+            if(cl > position + 1)
+            {
+                return;
+            }
+            if(cr > position + 1)
+            {
+                arr[p - 1] = arr[cl -1];
+                return;
+            }
+            if(arr[cl - 1] < arr[cr - 1])
+            {
+                arr[p - 1] = arr[cl - 1];
+                rsort(cl);
+            }
+            else
+            {
+                arr[p - 1] = arr[cr - 1];
+                rsort(cr);
+            }
+        }
+    }
+    public int pop()
+    {
+        if(position == 0)
+        {
+            return -1;
+        }
+        int num = arr[0];
+        arr[0] = arr[position -1];
+        position--;
+        rsort(1);
+        return num;
+    }
+    public void print()
+    {
+        for (int i=0;i<position;i++)
+        {
+            System.out.print((i<position-1)?(arr[i]+","):(arr[i]+""));
+        }
+        System.out.print("\n");
+    }
+}
+
+public void test13()
+{
+    PriorityQueue queue = new PriorityQueue();
+    queue.push(9);
+    queue.print();
+    queue.push(7);
+    queue.print();
+    queue.push(10);
+    queue.print();
+    queue.push(6);
+    queue.print();
+    queue.push(8);
+    queue.print();
+    queue.push(3);
+    queue.print();
+    queue.push(2);
+    queue.print();
+    queue.pop();
+    queue.print();
+    queue.pop();
+    queue.print();
+    queue.push(5);
+    queue.print();
+    queue.pop();
+    queue.print();
+    queue.pop();
+    queue.print();
+    queue.pop();
+    queue.print();
+    System.out.println();
+}
