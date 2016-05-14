@@ -272,3 +272,10 @@ S 的子树的 失衡方向记为D2， 这两图都是 D1 和 D2 相反的。
 如果你还有问题，欢迎提交iusse。 
 
 have fun！
+
+------
+推荐视频
+
+https://www.coursera.org/learn/gaoji-shuju-jiegou/lecture/PJ9Jy/avlshu-de-gai-nian-yu-cha-ru-cao-zuo
+
+https://www.coursera.org/learn/gaoji-shuju-jiegou/lecture/dt0sr/avlshu-de-shan-chu-cao-zuo-he-xing-neng-fen-xi
