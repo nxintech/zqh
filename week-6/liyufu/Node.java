@@ -1,4 +1,4 @@
-package com.nxin.structure.tree.avl;
+package com.nxin.zqh.weeksix;
 
 public class  Node {
 	private int data;
@@ -39,6 +39,7 @@ public class  Node {
 	}
 	@Override
 	public String toString() {
+		//return JSONObject.toJSONString(this);
 		return "Node [data=" + data + ", leftNode=" + leftNode + ", rightNode=" + rightNode + ", height=" + height
 				+ "]";
 	}
