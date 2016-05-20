@@ -1,4 +1,4 @@
-# 自强会
+# 自强会 [aws](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)
 分享知识 自强不息
 
 每周周5下班后组织分享，欢迎大家加微信群
