@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+﻿#!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # 类的方法调用：先实例化这个类，然后通过实例才能使用类的方法
 # 函数要注意return,尤其在递归时
@@ -16,10 +16,11 @@ class Binary_tree:
         self.root = Node(value)
 
     def insert(self, value):
-        return self._insert(self.root, value)
-
-    def _insert(self, node, value):  # node是节点，value是待插入节点的data
         insert_node = Node(value)
+        return self._insert(self.root, insert_node)
+
+    def _insert(self, node, insert_node):  # node是节点，value是待插入节点的data
+        value = insert_node.data
         data = node.data
         left = node.left
         right = node.right
@@ -28,13 +29,13 @@ class Binary_tree:
                 node.left = insert_node
                 insert_node.parent = node
             else:
-                return self._insert(left, value)
+                return self._insert(left, insert_node)
         if value > data:
             if right is None:
                 node.right = insert_node
                 insert_node.parent = node
             else:
-                return self._insert(right, value)
+                return self._insert(right, insert_node)
         if value == data:
             print "The value had been inserted into the binary_sort_tree."
 
@@ -160,4 +161,5 @@ if __name__ == '__main__':
 
     onetree.midTraverse(r)
 
+    print "\n"
     print onetree.find(433)
