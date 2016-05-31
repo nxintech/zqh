@@ -99,3 +99,11 @@ B Tree
 
 
 
+
+
+
+资料
+------
+https://webdocs.cs.ualberta.ca/~holte/T26/top.realTop.html
+
+http://blog.codinglabs.org/articles/theory-of-mysql-index.html
