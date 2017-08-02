@@ -91,11 +91,19 @@ b       # 前一个单词结尾
 
 搜索
 ```
-/<string>
-?/<string>
+/<string>   # 搜索string
+?/<string>  # 反向搜索
+
+*           # 等于 ?<string>, 光标在string的第一个字母上
+#           # 等于 /<string>
 
 n           # 下一条匹配项
 N           # 前一条匹配项
+
+%           # 匹配小括号中括号花括号
+
+>>          # 右缩进4格
+<<          # 左缩进4格
 ```
 
 正则替换
@@ -124,6 +132,22 @@ Esc
 ctrl-c
 ctrl-[
 ```
+批量编辑
+```
+ctrl-v       # Vi
+选择block 
+I            # 插入模式
+ctrl-c       # 退出编辑模式并插入
+
+ctrl-p       # 自动补全
+J            # 自动变一行
+```
+
+
+
+
+
+
 
 # tail | head
 pass
