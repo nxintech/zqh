@@ -1,0 +1,15 @@
+# 处理特定时间内的日志
+
+awk 'BEGIN{
+    begin = mktime("2017 07 28 09 05 00")
+    end = mktime("2017 07 28 09 10 00")
+}{
+    # 解析 [28/Jul/2017:15:34:05
+    split($4, a, "[/:]")
+    match("JanFebMarAprMayJunJulAugSepOctNovDec", a[2])
+    month = sprintf("%02d",(RSTART+2)/3)
+    a[1] = substr(a[1], 2)
+    ts = mktime(a[3]" "month" "a[1]" "a[4]" "a[5]" "a[6])
+    if (begin < ts && ts < end) {
+        print $0    }
+}' nginx.log
