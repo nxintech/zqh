@@ -1,4 +1,4 @@
-# 1
+# 静态方法构造
 http://gitlab.nxin.com/liuyangc3/rid/commit/383e873e4c57f0b992126e48f573f4f396d40209
 
 before
@@ -99,10 +99,15 @@ public final class TaskParameter {
 }
 ```
 
+可以看到通过IDE可以提示
 
 ![build](img/b1.png)
 
+同样的用法在 java.util.stream.Collectors 包
+
 ![build](img/b2.png)
+
+优势
 
 - 减少文件数量
 - 相比 constructor, 可以通过合理命名表达
