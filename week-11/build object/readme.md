@@ -98,3 +98,11 @@ public final class TaskParameter {
     }
 }
 ```
+
+
+![build](img/b1.png)
+
+![build](img/b2.png)
+
+- 减少文件数量
+- 相比 constructor, 可以通过合理命名表达
