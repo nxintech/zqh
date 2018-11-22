@@ -57,20 +57,20 @@ public final class TaskParameter {
 
     @Data
     @AllArgsConstructor
-    private static class DatabaseParameter {
-        protected String catalog;
-        protected String[] statements;
-        protected ExecuteMode mode;
-        protected boolean transaction;
-        protected boolean rollback;
+    public static class DatabaseParameter {
+        private String catalog;
+        private String[] statements;
+        private ExecuteMode mode;
+        private boolean transaction;
+        private boolean rollback;
     }
 
     @Data
     @AllArgsConstructor
-    private static class RedisParameter {
-        protected Integer database;
-        protected String[] statements;
-        protected ExecuteMode mode;
+    public static class RedisParameter {
+        private Integer database;
+        private String[] statements;
+        private ExecuteMode mode;
     }
 
     public static DatabaseParameter toDatabaseQuery(String catalog, String[] statements) {
