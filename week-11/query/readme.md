@@ -1,6 +1,6 @@
 
-## before
-Controller
+# Controller
+
 ```java
 @RestController
 @RequestMapping("/api/v1/resgroups")
@@ -15,36 +15,7 @@ public class ResourceGroupController extends AbstractApiController {
 }
 ```
 
-QueryService
-```java
-@Service
-public class GroupBizServiceImpl implements IGroupBizService {
-    private final GroupRepository groupRepository;
-    private final ResourceGroupManager groupManager;
-
-     @Override
-    public Collection<QueryResult> query(Integer gid, String database, GroupQueryStatement statement) {
-        List<SQLStatement> statements = SQLUtils.parseStatements(statement.getStmt(), JdbcConstants.MYSQL);
-        if (!statements.stream().allMatch(SqlValidator::legalQuery)) {
-            throw new RuntimeException("非法的查询语句");
-        }
-        String[] scripts = statements.stream().map(Objects::toString).toArray(String[]::new);
-        AbstractTaskExecutorBuilder executorBuilder = new DatabaseSingleQueryExecutorBuilder(database, scripts);
-        GroupParameter groupTask = new DatabaseGroupParameter(gid, statement.getTag(), executorBuilder);
-
-        Collection<QueryResult> results = groupManager.submitTask(groupTask);
-        if (results == null || results.size() != 1) {
-            return null;
-        }
-        return results;
-    }
-}
-```
-
-
-## after
-
-Controller
+after
 ```java
 @RestController
 @RequestMapping("/api/v1/resgroups")
@@ -76,8 +47,34 @@ public class ResourceGroupController {
 
 ```
 
+# Service
 
-QueryService
+```java
+@Service
+public class GroupBizServiceImpl implements IGroupBizService {
+    private final GroupRepository groupRepository;
+    private final ResourceGroupManager groupManager;
+
+     @Override
+    public Collection<QueryResult> query(Integer gid, String database, GroupQueryStatement statement) {
+        List<SQLStatement> statements = SQLUtils.parseStatements(statement.getStmt(), JdbcConstants.MYSQL);
+        if (!statements.stream().allMatch(SqlValidator::legalQuery)) {
+            throw new RuntimeException("非法的查询语句");
+        }
+        String[] scripts = statements.stream().map(Objects::toString).toArray(String[]::new);
+        AbstractTaskExecutorBuilder executorBuilder = new DatabaseSingleQueryExecutorBuilder(database, scripts);
+        GroupParameter groupTask = new DatabaseGroupParameter(gid, statement.getTag(), executorBuilder);
+
+        Collection<QueryResult> results = groupManager.submitTask(groupTask);
+        if (results == null || results.size() != 1) {
+            return null;
+        }
+        return results;
+    }
+}
+```
+
+after
 ```java
 @Service
 public class QueryService {
