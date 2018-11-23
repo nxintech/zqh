@@ -169,7 +169,7 @@ public class HikariDataSourceManager implements DataSourceManager {
 }
 ```
 
-
+usage 对比
 ```java
 DataSoruce dataSoruce = new HikariDataSourceManager().flush(old, resourcePrppites);
 
