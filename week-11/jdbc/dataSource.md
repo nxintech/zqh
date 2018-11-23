@@ -1,49 +1,22 @@
+DataSourceManager 用来管理 dataSource
+
+通过创建新的 dataSource , 删除老的 dataSource 用来支持动态添加/删除数据库
+
+
+接口定义
 ```java
 public interface DataSourceManager {
 
     DataSource build(DatabaseResourceProperties properties);
     DataSource flush(DataSource dataSource, DatabaseResourceProperties properties);
     void close(DataSource dataSource);
-    
-    
-    // 默认实现
-    class DefaultDataSourceManager implements DataSourceManager {
-        @Override
-        public DataSource build(DatabaseResourceProperties properties) {
-            SingleConnectionDataSource dataSource = new SingleConnectionDataSource();
-            flush(dataSource, properties);
-            dataSource.setConnectionProperties(properties.getProperties());
-            return dataSource;
-        }
-        @Override
-        public DataSource flush(DataSource dataSource, DatabaseResourceProperties properties) {
-            if (dataSource == null || properties == null) {
-                return dataSource;
-            }
-            SingleConnectionDataSource source = (SingleConnectionDataSource) dataSource;
-            DatabaseAuth auth = properties.getAuth();
-            String driverClassName = properties.getDriverClassName();
-            source.setUrl(DataSourceManager.buildMysqlUrl(properties.getHost(), properties.getPort(), properties.getDbName()));
-            source.setUsername(auth.getUsername());
-            source.setPassword(auth.getPassword());
-            source.setConnectionProperties(properties.getProperties());
-            if (driverClassName != null) {
-                source.setDriverClassName(driverClassName);
-            }
-            return source;
-        }
-        @Override
-        public void close(DataSource dataSource) {
-            SingleConnectionDataSource source = (SingleConnectionDataSource) dataSource;
-            source.destroy();
-        }
-    }
 }
 ```
 
 
 ```java
 public class HikariDataSourceManager implements DataSourceManager {
+    
     @Override
     public DataSource build(DatabaseResourceProperties properties) {
         if (properties == null) {
@@ -51,6 +24,7 @@ public class HikariDataSourceManager implements DataSourceManager {
         }
         return flush(new HikariDataSource(), properties);
     }
+    
     @Override
     public DataSource flush(DataSource dataSource, DatabaseResourceProperties properties) {
         if (dataSource == null || properties == null) {
@@ -94,11 +68,31 @@ public class HikariDataSourceManager implements DataSourceManager {
 
 ```
 
+语义
 
+build, 实际上调用 flush 
+
+flush 逻辑: 
+
+1 传入一个 dataSource, 和一个 properties
+
+2 properties 和 dataSource properties 相同, 返回 dataSource
+
+3 如果不同, 根据 properties 创建 dataSource, 并返回新 dataSource
 
 
 ## after
 新接口设计
+
+根据需求 重新定义为下面的接口
+
+create 根据 properties 创建 dataSource
+
+update 根据 properties 更新 dataSource
+
+isEquals 对比两个 dataSource 属性相同
+
+destroy 销毁 dataSource
 
 ```java 
 public interface DataSourceManager {
@@ -108,7 +102,7 @@ public interface DataSourceManager {
     DataSource create(DatabaseResource resource);
 
     /**
-     * 更新 DataSource
+     * 更新 DataSource 属性
      */
     DataSource update(DataSource dataSource, DatabaseResource resource);
 
@@ -124,6 +118,8 @@ public interface DataSourceManager {
 }
 ```
 实现
+
+
 ```java
 public class HikariDataSourceManager implements DataSourceManager {
     @Override
