@@ -92,14 +92,6 @@ build 耦合了  flush
 
 根据需求 重新定义为下面的接口
 
-create 根据 properties 创建 dataSource
-
-update 根据 properties 更新 dataSource
-
-isEquals 对比两个 dataSource 属性相同
-
-destroy 销毁 dataSource
-
 ```java 
 public interface DataSourceManager {
     /**
@@ -108,19 +100,19 @@ public interface DataSourceManager {
     DataSource create(DatabaseResource resource);
 
     /**
-     * 更新 DataSource 属性
+     * 替换 DataSource
      */
-    DataSource update(DataSource dataSource, DatabaseResource resource);
+    DataSource replace(DataSource oldDs, DataSource newDs);
 
     /**
-     * DataSource 属性是否相等, 例如 用户名 密码 url
+     * 对比两个 DataSource 属性是否相等, 例如 用户名,密码,url 等
      */
-    Boolean isEquals(DataSource d1, DataSource d2);
+    Boolean propEquals(@NonNull DataSource a, @NonNull DataSource b);
 
     /**
      * 删除 DataSource
      */
-    void destroy(DataSource dataSource);
+    void destroy(@NonNull DataSource dataSource);
 }
 ```
 实现
@@ -128,6 +120,7 @@ public interface DataSourceManager {
 
 ```java
 public class HikariDataSourceManager implements DataSourceManager {
+
     @Override
     public DataSource create(@NonNull DatabaseResource resource) {
         HikariDataSource dataSource = new HikariDataSource();
@@ -146,17 +139,18 @@ public class HikariDataSourceManager implements DataSourceManager {
     }
 
     @Override
-    public DataSource update(@NonNull DataSource dataSource, @NonNull DatabaseResource resource) {
-        DataSource newOne = create(resource);
-        if (isEquals(dataSource, newOne)) {
-            return dataSource;
+    public DataSource replace(DataSource oldDs, DataSource newDs) {
+        if (propEquals(oldDs, newDs)) {
+            destroy(newDs);
+            return oldDs;
+        } else {
+            destroy(oldDs);
+            return newDs;
         }
-        destroy(dataSource);
-        return newOne;
     }
 
     @Override
-    public Boolean isEquals(@NonNull DataSource d1, @NonNull DataSource d2) {
+    public Boolean propEquals(DataSource d1, DataSource d2) {
         HikariDataSource left = (HikariDataSource) d1;
         HikariDataSource right = (HikariDataSource) d2;
         return Objects.equals(left.getJdbcUrl(), right.getJdbcUrl())
@@ -164,7 +158,7 @@ public class HikariDataSourceManager implements DataSourceManager {
                 && Objects.equals(left.getPassword(), right.getPassword())
                 && Objects.equals(left.getDataSourceProperties(), right.getDataSourceProperties());
     }
-
+    
     @Override
     public void destroy(DataSource dataSource) {
         if (dataSource instanceof HikariDataSource) {
@@ -173,5 +167,11 @@ public class HikariDataSourceManager implements DataSourceManager {
         }
     }
 }
+```
 
+
+```java
+DataSoruce dataSoruce = new HikariDataSourceManager().flush(old, resourcePrppites);
+
+DataSoruce dataSoruce = new HikariDataSourceManager().replace(old, dsm.create(resourcePrppites))
 ```
