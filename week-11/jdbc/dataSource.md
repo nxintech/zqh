@@ -173,5 +173,6 @@ usage 对比
 ```java
 DataSoruce dataSoruce = new HikariDataSourceManager().flush(old, resourcePrppites);
 
-DataSoruce dataSoruce = new HikariDataSourceManager().replace(old, dsm.create(resourcePrppites))
+HikariDataSourceManager dsm = new HikariDataSourceManager();
+DataSoruce dataSoruce = dsm.replace(old, dsm.create(resourcePrppites));
 ```
