@@ -97,11 +97,8 @@ public class HikariDataSourceManager implements DataSourceManager {
 
 
 
-
-
-
-
-
+## 
+新接口设计
 
 ```java 
 public interface DataSourceManager {
@@ -125,4 +122,54 @@ public interface DataSourceManager {
      */
     void destroy(DataSource dataSource);
 }
+```
+实现
+```java
+public class HikariDataSourceManager implements DataSourceManager {
+    @Override
+    public DataSource create(@NonNull DatabaseResource resource) {
+        HikariDataSource dataSource = new HikariDataSource();
+        String url = DataSourceManager.mysqlJdbcUrl(resource.getHost(), resource.getPort(), resource.getCatalog());
+
+        dataSource.setJdbcUrl(url);
+        dataSource.setUsername(resource.getAuth().getUsername());
+        dataSource.setPassword(resource.getAuth().getPassword());
+        dataSource.setDataSourceProperties(resource.getDataSourceProperties());
+
+        dataSource.setPoolName(url);
+        dataSource.setMaximumPoolSize(2);
+        dataSource.setConnectionTestQuery("SELECT 1");
+
+        return dataSource;
+    }
+
+    @Override
+    public DataSource update(@NonNull DataSource dataSource, @NonNull DatabaseResource resource) {
+        DataSource newOne = create(resource);
+        if (isEquals(dataSource, newOne)) {
+            return dataSource;
+        }
+        destroy(dataSource);
+        return newOne;
+    }
+
+    @Override
+    public Boolean isEquals(@NonNull DataSource d1, @NonNull DataSource d2) {
+        HikariDataSource left = (HikariDataSource) d1;
+        HikariDataSource right = (HikariDataSource) d2;
+        return Objects.equals(left.getJdbcUrl(), right.getJdbcUrl())
+                && Objects.equals(left.getUsername(), right.getUsername())
+                && Objects.equals(left.getPassword(), right.getPassword())
+                && Objects.equals(left.getDataSourceProperties(), right.getDataSourceProperties());
+    }
+
+    @Override
+    public void destroy(DataSource dataSource) {
+        if (dataSource instanceof HikariDataSource) {
+            HikariDataSource hikariDataSource = (HikariDataSource) dataSource;
+            hikariDataSource.close();
+        }
+    }
+}
+
 ```
