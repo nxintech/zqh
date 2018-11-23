@@ -81,6 +81,12 @@ flush 逻辑:
 3 如果不同, 根据 properties 创建 dataSource, 并返回新 dataSource
 
 
+build 耦合了  flush
+
+既然是新创建的 dataSource, dataSource 为什么要和 properties 做对比? 
+
+
+
 ## after
 新接口设计
 
