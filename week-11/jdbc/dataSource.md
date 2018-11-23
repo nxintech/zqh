@@ -1,10 +1,6 @@
 ```java
 public interface DataSourceManager {
-    DataSourceManager DEFAULT = new DefaultDataSourceManager();
-    static String buildMysqlUrl(String host, Short port, String dbName) {
-        String url = "jdbc:mysql://".concat(host.trim()).concat(":").concat(String.valueOf(port));
-        return dbName == null ? url : url.concat(dbName.trim());
-    }
+
     DataSource build(DatabaseResourceProperties properties);
     DataSource flush(DataSource dataSource, DatabaseResourceProperties properties);
     void close(DataSource dataSource);
